@@ -4,6 +4,11 @@ import SwiftUI
 import SceneKit.ModelIO
 import RealityKit
 
+
+enum ARDemoErrors: Swift.Error {
+    case failedLoadingUSDZ
+}
+
 // MARK: - ARViewIndicator
 struct ARViewIndicator: UIViewControllerRepresentable {
     typealias UIViewControllerType = ARView
@@ -120,7 +125,10 @@ class ARView: UIViewController, ARSCNViewDelegate {
         let wrapperNode = SCNNode()
         parent.addChildNode(wrapperNode)
         
-        guard let url = Bundle.main.url(forResource: "MeshyComb", withExtension: "usdz") else { fatalError() }
+        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else { 
+            print("Failed to load 'Meshy.usdz' file.")
+            return wrapperNode
+        }
         let mdlAsset = MDLAsset(url: url)
         mdlAsset.loadTextures()
         let node = SCNNode(mdlObject: mdlAsset.object(at: 0))
