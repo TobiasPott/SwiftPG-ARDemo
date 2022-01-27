@@ -16,8 +16,10 @@ let package = Package(
         .iOSApplication(
             name: "AR Demo",
             targets: ["AppModule"],
-            displayVersion: "1.0",
-            bundleVersion: "1",
+            bundleIdentifier: "de.tobiaspott.playground.ardemo",
+            teamIdentifier: "LR2W97LX43",
+            displayVersion: "0.1",
+            bundleVersion: "5",
             iconAssetName: "AppIcon",
             accentColorAssetName: "AccentColor",
             supportedDeviceFamilies: [

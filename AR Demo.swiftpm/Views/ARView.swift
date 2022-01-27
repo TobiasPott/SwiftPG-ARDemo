@@ -34,6 +34,8 @@ class ARView: UIViewController, ARSCNViewDelegate {
         super.viewDidLoad()
         arView.delegate = self
         arView.scene = SCNScene()
+        arView.autoenablesDefaultLighting = true
+        arView.automaticallyUpdatesLighting = true
     }
     // MARK: - Functions for standard AR view handling
     override func viewDidAppear(_ animated: Bool) {
@@ -125,7 +127,8 @@ class ARView: UIViewController, ARSCNViewDelegate {
         let wrapperNode = SCNNode()
         parent.addChildNode(wrapperNode)
         
-        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else { 
+        //        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else
+        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else{ 
             print("Failed to load 'Meshy.usdz' file.")
             return wrapperNode
         }
