@@ -19,7 +19,7 @@ let package = Package(
             bundleIdentifier: "de.tobiaspott.playground.ardemo",
             teamIdentifier: "LR2W97LX43",
             displayVersion: "0.1",
-            bundleVersion: "5",
+            bundleVersion: "6",
             iconAssetName: "AppIcon",
             accentColorAssetName: "AccentColor",
             supportedDeviceFamilies: [
