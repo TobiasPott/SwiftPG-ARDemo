@@ -23,6 +23,10 @@ struct ARViewIndicator: UIViewControllerRepresentable {
 
 
 class ARView: UIViewController, ARSCNViewDelegate {
+    let assetFileName: String = "Meshy"
+    let assetFileExt: String = "usdz"
+    var mdlAsset: MDLAsset? = nil
+    var mdlObject: MDLObject? = nil
     
     var arView: ARSCNView {
         return self.view as! ARSCNView
@@ -36,6 +40,15 @@ class ARView: UIViewController, ARSCNViewDelegate {
         arView.scene = SCNScene()
         arView.autoenablesDefaultLighting = true
         arView.automaticallyUpdatesLighting = true
+        
+        //        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else
+        guard let url = Bundle.main.url(forResource: assetFileName, withExtension: assetFileExt) else{ 
+            print("Failed to load 'Meshy.usdz' file.")
+            return
+        }
+        mdlAsset = MDLAsset(url: url)
+        mdlAsset?.loadTextures()
+        mdlObject = mdlAsset?.object(at: 0)
     }
     // MARK: - Functions for standard AR view handling
     override func viewDidAppear(_ animated: Bool) {
@@ -127,18 +140,12 @@ class ARView: UIViewController, ARSCNViewDelegate {
         let wrapperNode = SCNNode()
         parent.addChildNode(wrapperNode)
         
-        //        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else
-        guard let url = Bundle.main.url(forResource: "Meshy", withExtension: "usdz") else{ 
-            print("Failed to load 'Meshy.usdz' file.")
-            return wrapperNode
+        if mdlObject != nil {
+            let node = SCNNode(mdlObject: mdlObject!)
+            wrapperNode.addChildNode(node)
+            wrapperNode.transform = SCNMatrix4(transform)
+            wrapperNode.scale = SCNVector3(scale, scale, scale)
         }
-        let mdlAsset = MDLAsset(url: url)
-        mdlAsset.loadTextures()
-        let node = SCNNode(mdlObject: mdlAsset.object(at: 0))
-        wrapperNode.addChildNode(node)
-        wrapperNode.transform = SCNMatrix4(transform)
-        wrapperNode.scale = SCNVector3(scale, scale, scale)
-        
         return wrapperNode
     }
 }
